@@ -11,6 +11,7 @@ public class City {
 	private Collection<District> districtsByIdCity;
 	
 	@Id
+	@GeneratedValue
 	@Column(name = "IDCity", nullable = false)
 	public int getIdCity() {
 		return idCity;

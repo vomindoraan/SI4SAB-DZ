@@ -13,6 +13,7 @@ public class TransportOffer {
 	private Package packageByIdPackage;
 	
 	@Id
+	@GeneratedValue
 	@Column(name = "IDTransportOffer", nullable = false)
 	public int getIdTransportOffer() {
 		return idTransportOffer;

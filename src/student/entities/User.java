@@ -67,6 +67,7 @@ public class User {
 	}
 	
 	@Id
+	@GeneratedValue
 	@Column(name = "IDUser", nullable = false)
 	public int getIdUser() {
 		return idUser;

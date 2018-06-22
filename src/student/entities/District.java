@@ -56,6 +56,7 @@ public class District {
 	}
 	
 	@Id
+	@GeneratedValue
 	@Column(name = "IDDistrict", nullable = false)
 	public int getIdDistrict() {
 		return idDistrict;

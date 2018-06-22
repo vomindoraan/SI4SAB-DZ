@@ -44,6 +44,7 @@ public class Vehicle {
 	}
 	
 	@Id
+	@GeneratedValue
 	@Column(name = "IDVehicle", nullable = false)
 	public int getIdVehicle() {
 		return idVehicle;
