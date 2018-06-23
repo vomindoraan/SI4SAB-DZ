@@ -22,6 +22,7 @@ public class dk140414_DistrictOperations implements DistrictOperations {
 		district.setName(name);
 		district.setxPos(xPos);
 		district.setyPos(yPos);
+		em.persist(district);
 		
 		em.getTransaction().commit();
 		return district.getIdDistrict();
