@@ -38,7 +38,7 @@ public class Vehicle {
 	}
 	
 	@Basic
-	@Column(name = "PlateNumber", nullable = false, length = 100)
+	@Column(name = "PlateNumber", nullable = false, length = 100, unique = true)
 	public String getPlateNumber() {
 		return plateNumber;
 	}

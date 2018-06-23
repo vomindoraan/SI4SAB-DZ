@@ -22,7 +22,7 @@ public class City {
 	}
 	
 	@Basic
-	@Column(name = "Name", nullable = false, length = 100)
+	@Column(name = "Name", nullable = false, length = 100, unique = true)
 	public String getName() {
 		return name;
 	}
@@ -32,7 +32,7 @@ public class City {
 	}
 	
 	@Basic
-	@Column(name = "PostalCode", nullable = false, length = 100)
+	@Column(name = "PostalCode", nullable = false, length = 100, unique = true)
 	public String getPostalCode() {
 		return postalCode;
 	}

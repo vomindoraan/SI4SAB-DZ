@@ -18,7 +18,7 @@ public class User {
 	private Collection<Package> packagesByIdUser;
 	
 	@Basic
-	@Column(name = "Username", nullable = false, length = 100)
+	@Column(name = "Username", nullable = false, length = 100, unique = true)
 	public String getUsername() {
 		return username;
 	}
