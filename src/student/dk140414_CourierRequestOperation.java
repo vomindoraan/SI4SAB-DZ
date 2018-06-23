@@ -89,23 +89,8 @@ public class dk140414_CourierRequestOperation implements CourierRequestOperation
 	
 	@Override
 	public boolean grantRequest(String username) {
-		EM.getTransaction().begin();
-		
-		CourierRequest request;
-		try {
-			// Find request
-			TypedQuery<CourierRequest> q = EM.createQuery(
-					"SELECT r FROM CourierRequest r WHERE r.userByIdUser.username = :username", CourierRequest.class);
-			q.setParameter("username", username);
-			request = q.getSingleResult();
-		} catch (PersistenceException e) {
-			EM.getTransaction().rollback();
-			return false;
-		}
-		
-		// TODO: Call stored procedure
-		
-		EM.getTransaction().commit();
-		return true;
+		return (Boolean) EM.createStoredProcedureQuery("grantRequest")
+		                   .setParameter("username", username)
+		                   .getSingleResult();
 	}
 }

@@ -3,6 +3,16 @@ package student.entities;
 import javax.persistence.*;
 
 @Entity
+@NamedStoredProcedureQueries({
+	@NamedStoredProcedureQuery(
+		name = "grantRequest",
+		procedureName = "GrantRequest",
+	    parameters = {
+			@StoredProcedureParameter(name = "username", type = String.class)
+	    },
+	    resultClasses = { Boolean.class }
+	)
+})
 public class CourierRequest {
 	private int idUser;
 	private int idVehicle;
