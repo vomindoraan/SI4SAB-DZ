@@ -13,7 +13,7 @@ public class TransportOffer {
 	private Package packageByIdPackage;
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IDTransportOffer", nullable = false)
 	public int getIdTransportOffer() {
 		return idTransportOffer;

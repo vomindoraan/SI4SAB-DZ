@@ -55,7 +55,7 @@ public class District {
 	}
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IDDistrict", nullable = false)
 	public int getIdDistrict() {
 		return idDistrict;

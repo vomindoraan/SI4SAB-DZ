@@ -68,7 +68,7 @@ public class User {
 	}
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IDUser", nullable = false)
 	public int getIdUser() {
 		return idUser;

@@ -1,8 +1,8 @@
 USE [si4sab];
 GO
 
-IF OBJECT_ID('GrantRequest', 'P') IS NOT NULL  
-    DROP PROCEDURE [GrantRequest];
+IF OBJECT_ID('GrantRequest', 'P') IS NOT NULL
+	DROP PROCEDURE [GrantRequest];
 GO
 
 CREATE PROCEDURE [GrantRequest]

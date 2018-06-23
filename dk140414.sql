@@ -1,9 +1,9 @@
 
 CREATE TABLE [City]
-( 
+(
 	[IDCity]             integer  IDENTITY  NOT NULL ,
 	[Name]               varchar(100)  NOT NULL ,
-	[PostalCode]         varchar(100)  NOT NULL 
+	[PostalCode]         varchar(100)  NOT NULL
 )
 go
 
@@ -11,23 +11,15 @@ ALTER TABLE [City]
 	ADD CONSTRAINT [XPKCity] PRIMARY KEY  CLUSTERED ([IDCity] ASC)
 go
 
-ALTER TABLE [City]
-	ADD CONSTRAINT [XAK1City] UNIQUE ([Name]  ASC)
-go
-
-ALTER TABLE [City]
-	ADD CONSTRAINT [XAK2City] UNIQUE ([PostalCode]  ASC)
-go
-
 CREATE TABLE [Courier]
-( 
-	[Status]             integer  NULL 
+(
+	[Status]             integer  NULL
 	CONSTRAINT [CourierStatusValues_1010847340]
 		CHECK  ( [Status]=0 OR [Status]=1 ),
 	[Deliveries]         integer  NULL ,
 	[IDUser]             integer  NOT NULL ,
 	[Profit]             decimal(10,3)  NULL ,
-	[IDVehicle]          integer  NULL 
+	[IDVehicle]          integer  NULL
 )
 go
 
@@ -36,9 +28,9 @@ ALTER TABLE [Courier]
 go
 
 CREATE TABLE [CourierRequest]
-( 
+(
 	[IDUser]             integer  NOT NULL ,
-	[IDVehicle]          integer  NOT NULL 
+	[IDVehicle]          integer  NOT NULL
 )
 go
 
@@ -47,12 +39,12 @@ ALTER TABLE [CourierRequest]
 go
 
 CREATE TABLE [District]
-( 
+(
 	[Name]               varchar(100)  NOT NULL ,
 	[XPos]               integer  NULL ,
 	[YPos]               integer  NULL ,
 	[IDCity]             integer  NOT NULL ,
-	[IDDistrict]         integer  IDENTITY  NOT NULL 
+	[IDDistrict]         integer  IDENTITY  NOT NULL
 )
 go
 
@@ -61,9 +53,9 @@ ALTER TABLE [District]
 go
 
 CREATE TABLE [Drive]
-( 
+(
 	[IDUser]             integer  NOT NULL ,
-	[IDPackage]          integer  NOT NULL 
+	[IDPackage]          integer  NOT NULL
 )
 go
 
@@ -72,20 +64,20 @@ ALTER TABLE [Drive]
 go
 
 CREATE TABLE [Package]
-( 
+(
 	[IDPackage]          integer  IDENTITY  NOT NULL ,
 	[IDDistrict1]        integer  NULL ,
 	[IDDistrict2]        integer  NULL ,
 	[IDUser]             integer  NULL ,
-	[Type]               integer  NULL 
+	[Type]               integer  NULL
 	CONSTRAINT [PackageTypeValues_790844993]
 		CHECK  ( [Type]=0 OR [Type]=1 OR [Type]=2 ),
 	[Weight]             decimal(10,3)  NULL ,
-	[DeliveryStatus]     integer  NULL 
+	[DeliveryStatus]     integer  NULL
 	CONSTRAINT [PackageDeliveryStatusValues_1075649309]
 		CHECK  ( [DeliveryStatus]=0 OR [DeliveryStatus]=1 OR [DeliveryStatus]=2 OR [DeliveryStatus]=3 ),
 	[TimeAccepted]       datetime  NULL ,
-	[DeliveryPrice]      decimal(10,3)  NULL 
+	[DeliveryPrice]      decimal(10,3)  NULL
 )
 go
 
@@ -94,11 +86,11 @@ ALTER TABLE [Package]
 go
 
 CREATE TABLE [TransportOffer]
-( 
+(
 	[IDTransportOffer]   integer  IDENTITY  NOT NULL ,
 	[IDUser]             integer  NULL ,
 	[IDPackage]          integer  NULL ,
-	[Percentage]         decimal(10,3)  NULL 
+	[Percentage]         decimal(10,3)  NULL
 )
 go
 
@@ -107,18 +99,18 @@ ALTER TABLE [TransportOffer]
 go
 
 CREATE TABLE [User]
-( 
+(
 	[Username]           varchar(100)  NOT NULL ,
-	[LastName]           varchar(100)  NOT NULL 
+	[LastName]           varchar(100)  NOT NULL
 	CONSTRAINT [StartsWithCapital_273224952]
 		CHECK  ( /*TODO*/1=1 ),
 	[PackagesSent]       integer  NULL ,
-	[FirstName]          varchar(100)  NOT NULL 
+	[FirstName]          varchar(100)  NOT NULL
 	CONSTRAINT [StartsWithCapital_222030781]
 		CHECK  ( /*TODO*/1=1 ),
 	[IsAdmin]            bit  NULL ,
 	[IDUser]             integer  IDENTITY  NOT NULL ,
-	[Password]           varchar(100)  NOT NULL 
+	[Password]           varchar(100)  NOT NULL
 	CONSTRAINT [UserPasswordValid_368902668]
 		CHECK  ( /*TODO*/1=1 )
 )
@@ -128,27 +120,19 @@ ALTER TABLE [User]
 	ADD CONSTRAINT [XPKUser] PRIMARY KEY  CLUSTERED ([IDUser] ASC)
 go
 
-ALTER TABLE [User]
-	ADD CONSTRAINT [XAK1User] UNIQUE ([Username]  ASC)
-go
-
 CREATE TABLE [Vehicle]
-( 
-	[FuelType]           integer  NULL 
+(
+	[FuelType]           integer  NULL
 	CONSTRAINT [VehicleFuelTypeValues_1128505471]
 		CHECK  ( [FuelType]=0 OR [FuelType]=1 OR [FuelType]=2 ),
 	[FuelConsumption]    decimal(10,3)  NULL ,
 	[PlateNumber]        varchar(100)  NOT NULL ,
-	[IDVehicle]          integer  IDENTITY  NOT NULL 
+	[IDVehicle]          integer  IDENTITY  NOT NULL
 )
 go
 
 ALTER TABLE [Vehicle]
 	ADD CONSTRAINT [XPKVehicle] PRIMARY KEY  CLUSTERED ([IDVehicle] ASC)
-go
-
-ALTER TABLE [Vehicle]
-	ADD CONSTRAINT [XAK1Vehicle] UNIQUE ([PlateNumber]  ASC)
 go
 
 
@@ -228,3 +212,40 @@ ALTER TABLE [TransportOffer]
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION
 go
+
+
+USE [si4sab];
+GO
+
+IF OBJECT_ID('GrantRequest', 'P') IS NOT NULL
+	DROP PROCEDURE [GrantRequest];
+GO
+
+CREATE PROCEDURE [GrantRequest]
+	@username VARCHAR(100),
+	@success BIT OUTPUT
+AS
+BEGIN
+	DECLARE @iduser INT, @idvehicle INT;
+
+	SELECT @iduser = [IDUser] FROM [User] WHERE [Username] = @username;
+
+	SELECT @idvehicle = v.[IDVehicle]
+	FROM [Vehicle] v JOIN [CourierRequest] cr ON v.[IDVehicle] = cr.[IDVehicle]
+	WHERE cr.[IDUser] = @iduser;
+
+	IF EXISTS(SELECT * FROM [Courier] WHERE [IDVehicle] = @idvehicle)
+	BEGIN
+		SET @success = 0;
+		RETURN;
+	END;
+
+	INSERT INTO [Courier]([IDUser], [IDVehicle], [Status], [Deliveries], [Profit])
+	VALUES (@iduser, @idvehicle, 0, 0, 0);
+
+	DELETE FROM [CourierRequest]
+	WHERE [IDUser] = @iduser;
+
+	SET @success = 1;
+END;
+GO

@@ -11,7 +11,7 @@ public class City {
 	private Collection<District> districtsByIdCity;
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IDCity", nullable = false)
 	public int getIdCity() {
 		return idCity;

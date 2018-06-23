@@ -32,7 +32,7 @@ public class Package {
 	private Collection<TransportOffer> transportOffersByIdPackage;
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IDPackage", nullable = false)
 	public int getIdPackage() {
 		return idPackage;
