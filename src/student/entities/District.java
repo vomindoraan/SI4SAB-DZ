@@ -1,14 +1,13 @@
 package student.entities;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Collection;
 
 @Entity
 public class District {
 	private String name;
-	private BigDecimal xPos;
-	private BigDecimal yPos;
+	private Integer xPos;
+	private Integer yPos;
 	private int idCity;
 	private int idDistrict;
 	private City cityByIdCity;
@@ -26,22 +25,22 @@ public class District {
 	}
 	
 	@Basic
-	@Column(name = "XPos", nullable = true, precision = 3)
-	public BigDecimal getxPos() {
+	@Column(name = "XPos", nullable = true)
+	public Integer getxPos() {
 		return xPos;
 	}
 	
-	public void setxPos(BigDecimal xPos) {
+	public void setxPos(Integer xPos) {
 		this.xPos = xPos;
 	}
 	
 	@Basic
-	@Column(name = "YPos", nullable = true, precision = 3)
-	public BigDecimal getyPos() {
+	@Column(name = "YPos", nullable = true)
+	public Integer getyPos() {
 		return yPos;
 	}
 	
-	public void setyPos(BigDecimal yPos) {
+	public void setyPos(Integer yPos) {
 		this.yPos = yPos;
 	}
 	
