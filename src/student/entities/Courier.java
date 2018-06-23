@@ -6,6 +6,9 @@ import java.util.Collection;
 
 @Entity
 public class Courier {
+	public static final int STATUS_NOT_DRIVING = 0;
+	public static final int STATUS_DRIVING = 1;
+	
 	private Integer status;
 	private Integer deliveries;
 	private int idUser;

@@ -7,6 +7,15 @@ import java.util.Collection;
 
 @Entity
 public class Package {
+	public static final int TYPE_LETTER = 0;
+	public static final int TYPE_STANDARD = 1;
+	public static final int TYPE_FRAGILE = 2;
+	
+	public static final int DELIVERY_STATUS_CREATED = 0;
+	public static final int DELIVERY_STATUS_ACCEPTED = 1;
+	public static final int DELIVERY_STATUS_DISPATCHED = 2;
+	public static final int DELIVERY_STATUS_DELIVERED = 3;
+	
 	private int idPackage;
 	private Integer idDistrict1;
 	private Integer idDistrict2;

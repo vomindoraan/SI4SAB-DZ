@@ -6,6 +6,10 @@ import java.util.Collection;
 
 @Entity
 public class Vehicle {
+	public static final int FUEL_TYPE_LPG = 0;
+	public static final int FUEL_TYPE_DIESEL = 1;
+	public static final int FUEL_TYPE_GASOLINE = 2;
+	
 	private Integer fuelType;
 	private BigDecimal fuelConsumption;
 	private String plateNumber;
