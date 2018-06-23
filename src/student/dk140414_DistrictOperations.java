@@ -1,20 +1,21 @@
 package student;
 
-import operations.CityOperations;
 import operations.DistrictOperations;
 import student.entities.City;
 import student.entities.District;
 
+import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-import static student.JPAUtil.EM;
+import static student.JPAUtil.getEntityManager;
 
 public class dk140414_DistrictOperations implements DistrictOperations {
 	@Override
 	public int insertDistrict(String name, int idCity, int xPos, int yPos) {
-		EM.getTransaction().begin();
+		EntityManager em = getEntityManager();
+		em.getTransaction().begin();
 		
 		District district = new District();
 		district.setIdCity(idCity);
@@ -22,52 +23,55 @@ public class dk140414_DistrictOperations implements DistrictOperations {
 		district.setxPos(xPos);
 		district.setyPos(yPos);
 		
-		EM.getTransaction().commit();
+		em.getTransaction().commit();
 		return district.getIdDistrict();
 	}
 	
 	@Override
 	public int deleteDistricts(String... names) {
-		EM.getTransaction().begin();
+		EntityManager em = getEntityManager();
+		em.getTransaction().begin();
 		
 		// Find districts
-		TypedQuery<District> q = EM.createQuery("SELECT d FROM District d WHERE d.name IN :names", District.class);
+		TypedQuery<District> q = em.createQuery("SELECT d FROM District d WHERE d.name IN :names", District.class);
 		q.setParameter("names", names);
 		List<District> districts= q.getResultList();
 		
-		districts.forEach(EM::remove);
+		districts.forEach(em::remove);
 		
-		EM.getTransaction().commit();
+		em.getTransaction().commit();
 		return districts.size();
 	}
 	
 	@Override
 	public boolean deleteDistrict(int idDistrict) {
-		EM.getTransaction().begin();
+		EntityManager em = getEntityManager();
+		em.getTransaction().begin();
 		
-		District district = EM.find(District.class, idDistrict);
+		District district = em.find(District.class, idDistrict);
 		if (district == null) {
-			EM.getTransaction().rollback();
+			em.getTransaction().rollback();
 			return false;
 		}
-		EM.remove(district);
+		em.remove(district);
 		
-		EM.getTransaction().commit();
+		em.getTransaction().commit();
 		return true;
 	}
 	
 	@Override
 	public int deleteAllDistrictsFromCity(String cityName) {
-		EM.getTransaction().begin();
+		EntityManager em = getEntityManager();
+		em.getTransaction().begin();
 		
 		int idCity;
 		try {
 			// Find city
-			TypedQuery<Integer> q = EM.createQuery("SELECT c.id FROM City c WHERE c.name = :cityName", Integer.class);
+			TypedQuery<Integer> q = em.createQuery("SELECT c.id FROM City c WHERE c.name = :cityName", Integer.class);
 			q.setParameter("cityName", cityName);
 			idCity = q.getSingleResult();
 		} catch (PersistenceException e) {
-			EM.getTransaction().rollback();
+			em.getTransaction().rollback();
 			return 0;
 		}
 		
@@ -76,22 +80,24 @@ public class dk140414_DistrictOperations implements DistrictOperations {
 			deleted += deleteDistrict(id) ? 1 : 0;
 		}
 		
-		EM.getTransaction().commit();
+		em.getTransaction().commit();
 		return deleted;
 	}
 	
 	@Override
 	public List<Integer> getAllDistrictsFromCity(int idCity) {
-		if (EM.find(City.class, idCity) == null) {
+		EntityManager em = getEntityManager();
+		if (em.find(City.class, idCity) == null) {
 			return null;
 		}
-		return EM.createQuery("SELECT d.id FROM District d JOIN City c ON d.idCity = c.id WHERE d.idCity = :idCity", Integer.class)
-		         .setParameter("idCity", idCity)
-		         .getResultList();
+		return em.createQuery(
+				"SELECT d.idCity FROM District d JOIN City c ON d.idCity = c.idCity WHERE d.idCity = :idCity", Integer.class)
+				.setParameter("idCity", idCity)
+				.getResultList();
 	}
 	
 	@Override
 	public List<Integer> getAllDistricts() {
-		return EM.createQuery("SELECT d.id FROM District d", Integer.class).getResultList();
+		return getEntityManager().createQuery("SELECT d.id FROM District d", Integer.class).getResultList();
 	}
 }

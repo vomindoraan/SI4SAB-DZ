@@ -2,30 +2,32 @@ package student;
 
 import operations.GeneralOperations;
 
+import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
-import static student.JPAUtil.EM;
+import static student.JPAUtil.getEntityManager;
 
 public class dk140414_GeneralOperations implements GeneralOperations {
 	@Override
 	public void eraseAll() {
-		EM.getTransaction().begin();
+		EntityManager em = getEntityManager();
+		em.getTransaction().begin();
 		
 		try {
-			EM.createQuery("DELETE FROM City").executeUpdate();
-			EM.createQuery("DELETE FROM Courier").executeUpdate();
-			EM.createQuery("DELETE FROM CourierRequest").executeUpdate();
-			EM.createQuery("DELETE FROM District").executeUpdate();
-			EM.createQuery("DELETE FROM Drive").executeUpdate();
-			EM.createQuery("DELETE FROM Package").executeUpdate();
-			EM.createQuery("DELETE FROM TransportOffer").executeUpdate();
-			EM.createQuery("DELETE FROM User").executeUpdate();
-			EM.createQuery("DELETE FROM Vehicle").executeUpdate();
+			em.createQuery("DELETE FROM City").executeUpdate();
+			em.createQuery("DELETE FROM Courier").executeUpdate();
+			em.createQuery("DELETE FROM CourierRequest").executeUpdate();
+			em.createQuery("DELETE FROM District").executeUpdate();
+			em.createQuery("DELETE FROM Drive").executeUpdate();
+			em.createQuery("DELETE FROM Package").executeUpdate();
+			em.createQuery("DELETE FROM TransportOffer").executeUpdate();
+			em.createQuery("DELETE FROM User").executeUpdate();
+			em.createQuery("DELETE FROM Vehicle").executeUpdate();
 		} catch (PersistenceException e) {
-			EM.getTransaction().rollback();
+			em.getTransaction().rollback();
 			throw e;
 		}
 		
-		EM.getTransaction().commit();
+		em.getTransaction().commit();
 	}
 }

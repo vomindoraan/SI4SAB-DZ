@@ -6,59 +6,62 @@ import student.entities.City;
 import java.util.List;
 import javax.persistence.*;
 
-import static student.JPAUtil.EM;
+import static student.JPAUtil.getEntityManager;
 
 public class dk140414_CityOperations implements CityOperations {
 	@Override
 	public int insertCity(String name, String postalCode) {
-		EM.getTransaction().begin();
+		EntityManager em = getEntityManager();
+		em.getTransaction().begin();
 
+		City city = new City();
 		try {
-			City city = new City();
 			city.setName(name);
 			city.setPostalCode(postalCode);
-			EM.persist(city);
+			em.persist(city);
 		} catch (PersistenceException e) {
-			EM.getTransaction().rollback();
+			em.getTransaction().rollback();
 			return -1;
 		}
 		
-		EM.getTransaction().commit();
+		em.getTransaction().commit();
 		return city.getIdCity();
 	}
 	
 	@Override
 	public int deleteCity(String... names) {
-		EM.getTransaction().begin();
+		EntityManager em = getEntityManager();
+		em.getTransaction().begin();
 		
 		// Find cities
-		TypedQuery<City> q = EM.createQuery("SELECT c FROM City c WHERE c.name IN :names", City.class);
+		TypedQuery<City> q = em.createQuery("SELECT c FROM City c WHERE c.name IN :names", City.class);
 		q.setParameter("names", names);
 		List<City> cities = q.getResultList();
 		
-		cities.forEach(EM::remove);
+		cities.forEach(em::remove);
 		
-		EM.getTransaction().commit();
+		em.getTransaction().commit();
 		return cities.size();
 	}
 	
 	@Override
 	public boolean deleteCity(int idCity) {
-		EM.getTransaction().begin();
+		EntityManager em = getEntityManager();
+		em.getTransaction().begin();
 		
-		City city = EM.find(City.class, idCity);
+		City city = em.find(City.class, idCity);
 		if (city == null) {
-			EM.getTransaction().rollback();
+			em.getTransaction().rollback();
 			return false;
 		}
-		EM.remove(city);
+		em.remove(city);
 		
-		EM.getTransaction().commit();
+		em.getTransaction().commit();
 		return true;
 	}
 	
 	@Override
 	public List<Integer> getAllCities() {
-		return EM.createQuery("SELECT c.id FROM City c", Integer.class).getResultList();
+		return getEntityManager().createQuery("SELECT c.idCity FROM City c", Integer.class).getResultList();
 	}
 }
