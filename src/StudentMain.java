@@ -10,8 +10,8 @@ public class StudentMain {
 		CourierOperations courierOperations = new dk140414_CourierOperations();
 		CourierRequestOperation courierRequestOperation = new dk140414_CourierRequestOperation();
 		GeneralOperations generalOperations = new dk140414_GeneralOperations();
-		UserOperations userOperations = /*new dk140414_UserOperations()*/null;
-		VehicleOperations vehicleOperations = /*new dk140414_VehicleOperations()*/null;
+		UserOperations userOperations = new dk140414_UserOperations();
+		VehicleOperations vehicleOperations = new dk140414_VehicleOperations();
 		PackageOperations packageOperations = /*new dk140414_PackageOperations()*/null;
 
 		TestHandler.createInstance(
