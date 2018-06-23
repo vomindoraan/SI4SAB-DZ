@@ -13,10 +13,15 @@ public class dk140414_CityOperations implements CityOperations {
 	public int insertCity(String name, String postalCode) {
 		EM.getTransaction().begin();
 
-		City city = new City();
-		city.setName(name);
-		city.setPostalCode(postalCode);
-		EM.persist(city);
+		try {
+			City city = new City();
+			city.setName(name);
+			city.setPostalCode(postalCode);
+			EM.persist(city);
+		} catch (PersistenceException e) {
+			EM.getTransaction().rollback();
+			return -1;
+		}
 		
 		EM.getTransaction().commit();
 		return city.getIdCity();
