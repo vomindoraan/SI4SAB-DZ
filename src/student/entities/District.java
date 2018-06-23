@@ -92,7 +92,7 @@ public class District {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "IDCity", referencedColumnName = "IDCity", nullable = false)
+	@PrimaryKeyJoinColumn(name = "IDCity", referencedColumnName = "IDCity")
 	public City getCityByIdCity() {
 		return cityByIdCity;
 	}

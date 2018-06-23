@@ -60,7 +60,7 @@ public class CourierRequest {
 	}
 	
 	@OneToOne
-	@JoinColumn(name = "IDUser", referencedColumnName = "IDUser", nullable = false)
+	@PrimaryKeyJoinColumn(name = "IDUser", referencedColumnName = "IDUser")
 	public User getUserByIdUser() {
 		return userByIdUser;
 	}
@@ -70,7 +70,7 @@ public class CourierRequest {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "IDVehicle", referencedColumnName = "IDVehicle", nullable = false)
+	@PrimaryKeyJoinColumn(name = "IDVehicle", referencedColumnName = "IDVehicle")
 	public Vehicle getVehicleByIdVehicle() {
 		return vehicleByIdVehicle;
 	}

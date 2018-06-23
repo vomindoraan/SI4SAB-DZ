@@ -16,6 +16,8 @@
             <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
             <property name="javax.persistence.jdbc.user" value="sa"/>
             <property name="javax.persistence.jdbc.password" value="qwe123"/>
+            <property name="eclipselink.jpa.uppercase-column-names" value="false"/>
+            <property name="eclipselink.target-database" value="SQLServer"/>
         </properties>
     </persistence-unit>
 </persistence>

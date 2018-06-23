@@ -175,7 +175,7 @@ public class Package {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "IDDistrict1", referencedColumnName = "IDDistrict")
+	@PrimaryKeyJoinColumn(name = "IDDistrict1", referencedColumnName = "IDDistrict")
 	public District getDistrictByIdDistrict1() {
 		return districtByIdDistrict1;
 	}
@@ -185,7 +185,7 @@ public class Package {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "IDDistrict2", referencedColumnName = "IDDistrict")
+	@PrimaryKeyJoinColumn(name = "IDDistrict2", referencedColumnName = "IDDistrict")
 	public District getDistrictByIdDistrict2() {
 		return districtByIdDistrict2;
 	}
@@ -195,7 +195,7 @@ public class Package {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "IDUser", referencedColumnName = "IDUser")
+	@PrimaryKeyJoinColumn(name = "IDUser", referencedColumnName = "IDUser")
 	public User getUserByIdUser() {
 		return userByIdUser;
 	}

@@ -96,7 +96,7 @@ public class Courier {
 	}
 	
 	@OneToOne
-	@JoinColumn(name = "IDUser", referencedColumnName = "IDUser", nullable = false)
+	@PrimaryKeyJoinColumn(name = "IDUser", referencedColumnName = "IDUser")
 	public User getUserByIdUser() {
 		return userByIdUser;
 	}
@@ -106,7 +106,7 @@ public class Courier {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "IDVehicle", referencedColumnName = "IDVehicle")
+	@PrimaryKeyJoinColumn(name = "IDVehicle", referencedColumnName = "IDVehicle")
 	public Vehicle getVehicleByIdVehicle() {
 		return vehicleByIdVehicle;
 	}

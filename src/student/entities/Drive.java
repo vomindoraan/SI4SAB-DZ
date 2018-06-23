@@ -51,7 +51,7 @@ public class Drive {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "IDUser", referencedColumnName = "IDUser", nullable = false)
+	@PrimaryKeyJoinColumn(name = "IDUser", referencedColumnName = "IDUser")
 	public Courier getCourierByIdUser() {
 		return courierByIdUser;
 	}
@@ -61,7 +61,7 @@ public class Drive {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "IDPackage", referencedColumnName = "IDPackage", nullable = false)
+	@PrimaryKeyJoinColumn(name = "IDPackage", referencedColumnName = "IDPackage")
 	public Package getPackageByIdPackage() {
 		return packageByIdPackage;
 	}

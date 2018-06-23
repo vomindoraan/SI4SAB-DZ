@@ -78,7 +78,7 @@ public class TransportOffer {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "IDUser", referencedColumnName = "IDUser")
+	@PrimaryKeyJoinColumn(name = "IDUser", referencedColumnName = "IDUser")
 	public Courier getCourierByIdUser() {
 		return courierByIdUser;
 	}
@@ -88,7 +88,7 @@ public class TransportOffer {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "IDPackage", referencedColumnName = "IDPackage")
+	@PrimaryKeyJoinColumn(name = "IDPackage", referencedColumnName = "IDPackage")
 	public Package getPackageByIdPackage() {
 		return packageByIdPackage;
 	}
