@@ -54,6 +54,6 @@ public class dk140414_CityOperations implements CityOperations {
 	
 	@Override
 	public List<Integer> getAllCities() {
-		return EM.createQuery("SELECT c.idCity FROM City c", Integer.class).getResultList();
+		return EM.createQuery("SELECT c.id FROM City c", Integer.class).getResultList();
 	}
 }

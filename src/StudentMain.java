@@ -6,7 +6,7 @@ import tests.TestRunner;
 public class StudentMain {
 	public static void main(String[] args) {
 		CityOperations cityOperations = new dk140414_CityOperations();
-		DistrictOperations districtOperations = /*new dk140414_DistrictOperations()*/null;
+		DistrictOperations districtOperations = new dk140414_DistrictOperations();
 		CourierOperations courierOperations = new dk140414_CourierOperations();
 		CourierRequestOperation courierRequestOperation = new dk140414_CourierRequestOperation();
 		GeneralOperations generalOperations = /*new dk140414_GeneralOperations()*/null;
